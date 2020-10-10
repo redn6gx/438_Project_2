@@ -1,0 +1,63 @@
+<head>
+    <title>Shopping Cart</title>
+    <meta name="description" content="This is the description">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="/javascripts/cartCode.js" async></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <header class="main-header">
+        <h1 class="store-name store-name-large">Game Gods</h1>
+    </header>
+
+    {{!-- ******************* for testing addint items ******************* --}}
+        {{!-- <section class="container content-section">
+            <h2 class="section-header">Test: Add Items</h2>
+            <div class="shop-items">
+                <div class="shop-item">
+                    <span class="shop-item-title">Shaq Fu</span>
+                    <img class="shop-item-image" src="images/shaqNintendo.jpg">
+                    <div class="shop-item-details">
+                        <span class="shop-item-price">$199.99</span>
+                        <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="shop-item">
+                    <span class="shop-item-title">Shaq Fu A Legend Reborn</span>
+                    <img class="shop-item-image" src="images/shaq.jpg">
+                    <div class="shop-item-details">
+                        <span class="shop-item-price">$1.99</span>
+                        <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+        </section> --}}
+    {{!-- ******************* for testing addint items ******************* --}}
+
+    <section class="container content-section">
+        <h2 class="section-header">SHOPPING CART</h2>
+        <div class="cart-row">
+            <span class="cart-item cart-header cart-column">ITEM</span>
+            <span class="cart-price cart-header cart-column">PRICE</span>
+            <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+        </div>
+        <div class="cart-items">
+        </div>
+        <div class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price">$0</span>
+        </div>
+        <button class="btn btn-primary btn-purchase" type="button">CHECKOUT</button>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container main-footer-container">
+            <h3 class="store-name">GG</h3>
+        </div>
+        <div class="container sub-footer-container">
+            <span class="disclaimer"> Disclaimer: This is not a real website. </span>
+        </div>
+    </footer>
+</body>
