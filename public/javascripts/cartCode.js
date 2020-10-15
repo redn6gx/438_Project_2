@@ -6,28 +6,24 @@ if (document.readyState == 'loading') {
 
 /*global $*/
 function ready() {
-    //var removeCartItemButtons = document.getElementsByClassName('btn-danger');
     var removeCartItemButtons = $('.btn-danger');
     for (var i = 0; i < removeCartItemButtons.length; i++) {
         var button = removeCartItemButtons[i];
         button.addEventListener('click', removeCartItem);
     }
 
-    //var quantityInputs = document.getElementsByClassName('cart-quantity-input');
     var quantityInputs = $('.cart-quantity-input');
     for (var i = 0; i < quantityInputs.length; i++) {
         var input = quantityInputs[i];
         input.addEventListener('change', quantityChanged);
     }
 
-    //var addToCartButtons = document.getElementsByClassName('shop-item-button');
     var addToCartButtons = $('.shop-item-button');
     for (var i = 0; i < addToCartButtons.length; i++) {
         button = addToCartButtons[i];
         button.addEventListener('click', addToCartClicked);
     }
 
-    //document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked);
     $('.btn-purchase')[0].addEventListener('click', purchaseClicked);
 
     //******************* TEMPORARILY HARD CODING PRODUCTS INTO CART *******************
@@ -38,8 +34,36 @@ function ready() {
 }
 
 function purchaseClicked() {
+    var cartContainer = document.getElementsByClassName('cart-items')[0];
+    var allRows = cartContainer.getElementsByClassName('cart-row');
+    var currentRow = allRows[0];
+
+    // debug
+    // console.log(currentRow);
+    // console.log(currentRow.getElementsByClassName('cart-item-title')[0].innerHTML);
+    // console.log(currentRow.getElementsByClassName('cart-quantity-input')[0].value);
+
+    $.ajax({
+        type: "POST",
+        url: "/cart/updateQuantity",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
+            amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
+        }),
+        success: function(data, status) {
+            if (data.response) {
+                console.log(data);
+                // location.reload();
+            }
+            else {
+                console.log(data.message);
+            }
+        }
+    });
+
     alert('Thank you for your purchase');
-    //var cartItems = document.getElementsByClassName('cart-items')[0];
     var cartItems = $('.cart-items')[0];
     while (cartItems.hasChildNodes()) {
         cartItems.removeChild(cartItems.firstChild);
