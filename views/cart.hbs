@@ -7,7 +7,7 @@
     </script>
 </head>
 
-<body>
+<body class="cartPageBody">
     <header class="main-header">
         <h1 class="store-name store-name-large">Game Gods</h1>
     </header>
@@ -41,7 +41,7 @@
     {{!-- ******************* for testing addint items ******************* --}}
 
     <section class="container content-section">
-        <h2 class="section-header">SHOPPING CART</h2>
+        <h2 class="section-header-cart">SHOPPING CART</h2>
         <div class="cart-row">
             <span class="cart-item cart-header cart-column">ITEM</span>
             <span class="cart-price cart-header cart-column">PRICE</span>
@@ -49,10 +49,12 @@
         </div>
         <div class="cart-items">
         </div>
-        <div class="cart-total">
-            <strong class="cart-total-title">Total</strong>
-            <span class="cart-total-price">$0</span>
-        </div>
+        <div class="temp">
+            <div class="cart-total">
+                <strong class="cart-total-title">Total</strong>
+                <span class="cart-total-price">$0</span>
+            </div>
+        </div>    
         <button class="btn btn-primary btn-purchase" type="button">CHECKOUT</button>
     </section>
 
