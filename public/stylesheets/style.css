@@ -31,6 +31,17 @@ a {
     color: #777;
 }
 
+.cartPageBody {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background-image: url("/images/monster2.jpg");
+
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -78,8 +89,21 @@ html, body {
     padding-top: 0.5em;
 }
 
+.section-header-cart {
+    text-align: center;
+    font-size: 3.5em;
+    font-weight: bold;
+    font-style: oblique;
+    font-family: fantasy;
+    color: rgb(255, 255, 255);
+
+    -webkit-text-fill-color: rgb(0, 0, 0); /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(0, 255, 217);
+}
+
 .main-footer {
-    background-color: #b956f2;
+    background-color: #a200ff;
     color: white;
     padding: .25em 0;
 }
@@ -165,7 +189,8 @@ html, body {
 }
 
 .btn-primary:hover {
-    background-color: #2D9CDB;
+    /* background-color: #2D9CDB; */
+    background-color: rgb(0, 255, 217);
 }
 
 .shop-item {
@@ -243,10 +268,23 @@ html, body {
     border-bottom: 1px solid black;
     margin-right: 1.5em;
     padding-bottom: 10px;
+    padding-left: 1.5em;
     margin-top: 10px;
+
+    width: 20%;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-style: oblique;
+    font-family: fantasy;
+    color: rgb(0, 0, 0);
+
+    -webkit-text-fill-color: rgb(0, 0, 0);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(0, 255, 217);
 }
 
 .cart-row {
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
 }
 
@@ -256,8 +294,6 @@ html, body {
 
 .cart-price {
     width: 20%;
-    font-size: 1.2em;
-    color: #333;
 }
 
 .cart-quantity {
@@ -265,9 +301,9 @@ html, body {
 }
 
 .cart-item-title {
-    color: #333;
     margin-left: .5em;
     font-size: 1.2em;
+    font-weight: bolder;
 }
 
 .cart-item-image {
@@ -278,14 +314,18 @@ html, body {
 
 .btn-danger {
     color: white;
-    background-color: #EB5757;
+    background-color: #790000;
     border: none;
     border-radius: .3em;
     font-weight: bold;
+    
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-width: 0px;
 }
 
 .btn-danger:hover {
-    background-color: #CC4C4C;
+    background-color: #ff0000;
 }
 
 .cart-quantity-input {
@@ -299,6 +339,9 @@ html, body {
     text-align: center;
     font-size: 1.2em;
     margin-right: 25px;
+
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    -webkit-text-stroke-width: 0px;
 }
 
 .cart-row:last-child {
@@ -310,9 +353,24 @@ html, body {
 }
 
 .cart-total {
-    text-align: end;
+    text-align: center;
     margin-top: 10px;
     margin-right: 10px;
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    /* flex-direction: row; */
+    max-width: fit-content;
+    margin: auto;
+
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(255, 255, 255);
+
+    -webkit-text-fill-color: rgb(0, 0, 0);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(0, 255, 217);
 }
 
 .cart-total-title {
