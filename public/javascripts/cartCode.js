@@ -6,6 +6,8 @@ if (document.readyState == 'loading') {
 
 /*global $*/
 function ready() {
+    $('.home_button').on('click', switchToHome);
+
     var removeCartItemButtons = $('.btn-danger');
     for (var i = 0; i < removeCartItemButtons.length; i++) {
         var button = removeCartItemButtons[i];
@@ -136,4 +138,10 @@ function updateCartTotal() {
     }
     total = Math.round(total * 100) / 100;
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total;
+}
+
+//switch to home page
+function switchToHome() {
+    console.log("function working?")
+    window.location.href = "/homepage";
 }

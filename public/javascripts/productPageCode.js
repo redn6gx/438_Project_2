@@ -1,9 +1,17 @@
-// $('.test_button').on("click", getProduct()); 
+if (document.readyState == 'loading') {
+    document.addEventListener('DOMContentLoaded', ready);
+} else {
+    ready();
+}
 
-getProduct();
+/*global $*/
+function ready() {
+    getProduct();
+    $('.home_button').on('click', switchToHome);
+    $('.cart_button').on('click', switchToCart);
+}
 
 function getProduct(){
-    console.log("Test Button Was Clicked");
     $.ajax({
         type: "POST",
         url: "/productPage/getProduct",
@@ -33,3 +41,15 @@ function getProduct(){
 };
 
 //Add to Cart Button
+
+//switch to home page
+function switchToHome() {
+    console.log("function working?")
+    window.location.href = "/homepage";
+}
+
+//switch to cart page
+function switchToCart() {
+    console.log("function working?")
+    window.location.href = "/cart";
+}
