@@ -4,7 +4,7 @@
     }
 </style>
 
-<h1>{{title}}</h1>
+<h1 class = "homepagetitle">{{title}}</h1>
 <nav class="navbar navbar-light bg-light float-right">
     <form class="form-inline">
         <input id="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -19,15 +19,36 @@
                 <option value="Waiting for players">Waiting for players</option>
             </select> --}}
         </div>
-        <button id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#searchModal">Search</button>
     </form>
 </nav>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table class="table table-striped" id="resultTable">
     <thead class="thead-dark">
         <tr>
+            <th>Image</th>
             <th>Item</th>
-            <th>Price</th>
             <th>Quantity</th>
             <th>
                 <a class="btn btn-info" href="home/login">Admin Login</a>
@@ -36,22 +57,17 @@
                 <a class="btn btn-create btn-success" data-toggle="modal" data-target="#createModal">Create Account</a>
             </th>
         </tr>
-    </thead>
-    <tbody id="tbody">
-        {{#each tournaments}}
+        {{#each item}}
         <tr>
-            <td class="w-50">{{tname}}</td>
-            <td class="w-25">{{playercount}}/{{capacity}}</td>
-            <td class="w-25">{{status}}</td>
+            <td><img src={{picture}} alt={{picture}}></td>
+            <td>{{name}}</td>
+            <td>{{quantity}}</td>
             <td>
-                <a class="btn btn-secondary" href="/view?id={{id}}">View</a>
-            </td>
-            <td>
-                <a class="btn btn-primary" href="/join?id={{id}}">Join</a>
+                <a class="btn btn-warning" href="/productPage?id={{gamePK}}">View Product</a>
             </td>
         </tr>
         {{/each}}
-    </tbody>
+    </thead>
 </table>
 
 <!-- Modal -->
@@ -91,6 +107,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 
 <script>
     $(document).ready(function() {
@@ -136,10 +156,12 @@
 
         $("#search").on('click', function(e) {
             e.preventDefault();
+            $('#searchModal').modal('toggle');
+
 
             $.ajax({
                 type: "POST",
-                url: "/search",
+                url: "/homepage",
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify({
