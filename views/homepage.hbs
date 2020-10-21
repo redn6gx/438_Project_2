@@ -94,6 +94,13 @@
 
 <script>
     $(document).ready(function() {
+        
+        //loacl storage array to store shopping cart items
+        var initialArray = [];
+        localStorage.setItem("cartArray", JSON.stringify(initialArray));
+
+
+
 
         $(".btn-create").on('click', function(e) {
             e.preventDefault();

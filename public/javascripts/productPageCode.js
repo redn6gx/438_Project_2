@@ -4,11 +4,26 @@ if (document.readyState == 'loading') {
     ready();
 }
 
+//class for game product to be added into local storage and loaded into cart
+class gameCartProduct{
+    constructor(gName, price, quantity, picture){
+        this.gName = gName;
+        this.price = price;
+        this.quantity = quantity;
+        this.picture = picture;
+    }
+}
+
+var addedProduct;
+var tempArray = JSON.parse(localStorage.getItem("cartArray"));
+// let tempArray = localStorage.cartArray ? localStorage.getItem("cartArray").split(",") : [];
+
 /*global $*/
 function ready() {
     getProduct();
     $('.home_button').on('click', switchToHome);
     $('.cart_button').on('click', switchToCart);
+    $('.shop-item-button').on('click', addToCart);
 }
 
 function getProduct(){
@@ -41,6 +56,20 @@ function getProduct(){
 };
 
 //Add to Cart Button
+function addToCart() {
+    let tempQuantity = $('.shop-item-quantity').html().split(":", 1);
+    addedProduct = new gameCartProduct( $('.shop-item-title').html(), $('.shop-item-price').html(),
+    tempQuantity[0], $('.shop-item-image').attr('src'));
+
+    console.log(addedProduct.gName, addedProduct.price, addedProduct.quantity, addedProduct.picture);
+
+    tempArray.push(addedProduct);
+    localStorage.setItem("cartArray", JSON.stringify(tempArray));
+
+    let testArray = JSON.parse(localStorage.getItem("cartArray"));
+    console.log(testArray[0].gName);
+}
+
 
 //switch to home page
 function switchToHome() {
