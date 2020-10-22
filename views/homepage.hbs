@@ -113,14 +113,14 @@
 
 
 <script>
-    $(document).ready(function() {
-        
-        //loacl storage array to store shopping cart items
-        var initialArray = [];
-        localStorage.setItem("cartArray", JSON.stringify(initialArray));
-
-
-
+    $(document).ready(function() { 
+        //set initial local storage variables
+        if(localStorage.getItem("localCart") == null){
+            let localCart = "";
+            let localQuantityCart = "";
+            localStorage.setItem("localCart", localCart);
+            localStorage.setItem("localQuantityCart", localQuantityCart);
+        }
 
         $(".btn-create").on('click', function(e) {
             e.preventDefault();
@@ -170,7 +170,6 @@
                 }),
                 success: function(data, status) {
                     console.log("success")
-
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
