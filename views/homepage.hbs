@@ -34,7 +34,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <p>
+            <tr>
+                <td><img src={{foundpic}}></td>
+                <td>{{foundname}}</td>
+                <td>{{foundprice}}</td>
+                <td>
+                    <a class="btn btn-warning" href="/productPage?id={{gamePK}}">View Product</a>
+                </td>
+            </tr>
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -113,6 +122,12 @@
 
 
 <script>
+
+    var foundname;
+    var foundpic;
+    var foundprice;
+    var foundpk;
+
     $(document).ready(function() {
 
         $(".btn-create").on('click', function(e) {
@@ -147,9 +162,12 @@
             });
         });
 
+
+
+
         $("#search").on('click', function(e) {
             e.preventDefault();
-            $('#searchModal').modal('toggle');
+                $('#searchModal').modal('toggle');
 
 
             $.ajax({
@@ -161,8 +179,17 @@
                     "keyword": $("#keyword").val(),
                     "statusFilter": $("#statusFilter").val()
                 }),
+
                 success: function(data, status) {
                     console.log("success")
+                    for(let i = 0; i < data.item.length; i++){
+                        if($('#keyword') == data.item[i].name){
+                            foundpic = data.item[i].picture;
+                            foundprice = data.item[i].price;
+                            foundname = data.item[i].name;
+                            foundpk = data.item[i].gamePK;
+                        }
+                    }
 
                 },
                 error: function(xhr, status, error) {
