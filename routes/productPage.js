@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 //post method for retrieving product from database
 router.post("/getProduct", function(req, res, next) {
   // console.log(req.body);
-  // let gameName = req.body.gameName;
+  let productPK = req.body.productPK;
   const dconnection = mysql.createConnection({
       host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
       user: 'fj0s4at6opd6jmr1',
@@ -19,7 +19,7 @@ router.post("/getProduct", function(req, res, next) {
   });
   dconnection.connect();
   dconnection.query(`
-    SELECT * FROM Game WHERE name = 'Shaq Fu';
+    SELECT * FROM Game WHERE gamePK = "${productPK}";
     `, function(error, results, fields){
         console.log(results);
         if (error) throw error;
