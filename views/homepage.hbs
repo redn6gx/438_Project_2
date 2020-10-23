@@ -129,6 +129,14 @@
     var foundpk;
 
     $(document).ready(function() {
+    $(document).ready(function() { 
+        //set initial local storage variables
+        if(localStorage.getItem("localCart") == null){
+            let localCart = "";
+            let localQuantityCart = "";
+            localStorage.setItem("localCart", localCart);
+            localStorage.setItem("localQuantityCart", localQuantityCart);
+        }
 
         $(".btn-create").on('click', function(e) {
             e.preventDefault();

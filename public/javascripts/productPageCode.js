@@ -4,11 +4,22 @@ if (document.readyState == 'loading') {
     ready();
 }
 
+var tempLocalCart = localStorage.getItem("localCart"); 
+var tempLocalQuantityCart = localStorage.getItem("localQuantityCart"); 
+var currentGamePK;
+
+
 /*global $*/
 function ready() {
+    // console.log(currentGamePK);
+    const params = new URLSearchParams(window.location.search)
+    console.log(params.get('id'));
+    currentGamePK = params.get('id');
+
     getProduct();
     $('.home_button').on('click', switchToHome);
     $('.cart_button').on('click', switchToCart);
+    $('.shop-item-button').on('click', addToCart);
 }
 
 function getProduct(){
@@ -17,9 +28,9 @@ function getProduct(){
         url: "/productPage/getProduct",
         dataType: "json",
         contentType: "application/json",
-        // data: JSON.stringify({
-        //     productTitle: $(".shop-item-title")[0].innerText,
-        // }),
+        data: JSON.stringify({
+            productPK: currentGamePK,
+        }),
         success: function (data, status) {
             console.log(data);
             console.log(data.success);
@@ -30,6 +41,8 @@ function getProduct(){
                 console.log(data.message);
             }
                 console.log(data.retrievedGame[0].name);
+                console.log(data.retrievedGame[0].gamePK);
+
                 //display game properties on productPage.hbs
                 $('.shop-item-title').html(data.retrievedGame[0].name);
                 $('.shop-item-price').html(data.retrievedGame[0].price);
@@ -41,6 +54,38 @@ function getProduct(){
 };
 
 //Add to Cart Button
+function addToCart() {
+    let duplicateFlag = false;
+
+    if(tempLocalCart == ""){
+        addToLocalStorageCart();
+        return;
+    }
+    //holds primary keys of games in cart
+    let localCartArray = tempLocalCart.split(",");
+
+    for(let i=0; i<localCartArray.length; i++){
+        if(localCartArray[i] == currentGamePK){
+            duplicateFlag = true;
+            break;
+        }
+    }
+
+    if(duplicateFlag){
+        console.log('Item already in cart');
+    }else{
+        addToLocalStorageCart();
+    }
+}
+ 
+function addToLocalStorageCart(){
+    tempLocalCart += currentGamePK + ',';
+    tempLocalQuantityCart += $('.cart-quantity-input').val()+ ',';
+    localStorage.setItem("localCart", tempLocalCart);
+    localStorage.setItem("localQuantityCart", tempLocalQuantityCart);
+    console.log(localStorage.getItem("localCart"));
+    console.log(localStorage.getItem("localQuantityCart"));
+}
 
 //switch to home page
 function switchToHome() {

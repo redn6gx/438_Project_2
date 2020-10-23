@@ -359,9 +359,8 @@ html, body {
     padding: 0.5em;
     background-color: rgba(0, 0, 0, 0.5);
     
-    /* flex-direction: row; */
     max-width: fit-content;
-    margin: auto;
+    margin: auto;   /* center a container */
 
     font-size: 2em;
     font-weight: bold;

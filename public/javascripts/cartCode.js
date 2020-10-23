@@ -6,6 +6,8 @@ if (document.readyState == 'loading') {
 
 /*global $*/
 function ready() {
+    populateCart();
+
     $('.home_button').on('click', switchToHome);
 
     var removeCartItemButtons = $('.btn-danger');
@@ -27,77 +29,49 @@ function ready() {
     }
 
     $('.btn-purchase')[0].addEventListener('click', purchaseClicked);
-
-    //******************* TEMPORARILY HARD CODING PRODUCTS INTO CART *******************
-    addItemToCart("Shaq Fu", "$199.99", "images/shaqNintendo.jpg");
-    addItemToCart("Shaq Fu: The Legend Reborn", "$1.99", "images/shaq.jpg");
-    updateCartTotal();
-    //******************* TEMPORARILY HARD CODING PRODUCTS INTO CART *******************
 }
 
-function purchaseClicked() {
-    var cartContainer = document.getElementsByClassName('cart-items')[0];
-    var allRows = cartContainer.getElementsByClassName('cart-row');
-    var currentRow = allRows[0];
+function populateCart(){
+    //holds primary keys of games in cart
+    let localCartArray = localStorage.getItem("localCart").split(",");
+    //holds chosen quantities of games in cart
+    //index of item in tempLocalCart is the index of associated quantity
+    let localQuantityCartArray = localStorage.getItem("localQuantityCart").split(",");
 
-    // debug
-    // console.log(currentRow);
-    // console.log(currentRow.getElementsByClassName('cart-item-title')[0].innerHTML);
-    // console.log(currentRow.getElementsByClassName('cart-quantity-input')[0].value);
+    for(let i=0; i<localCartArray.length; i++){
+        getProduct(localCartArray[i], localQuantityCartArray[i]);
+    }
+}
 
+function getProduct(currentGamePK, currentGameQuantity){
     $.ajax({
         type: "POST",
-        url: "/cart/updateQuantity",
+        url: "/productPage/getProduct",
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify({
-            gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
-            amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
+            productPK: currentGamePK,
         }),
-        success: function(data, status) {
+        success: function (data, status) {
+            console.log(data);
+            console.log(data.success);
             if (data.response) {
                 console.log(data);
                 // location.reload();
-            }
-            else {
+            } else {
                 console.log(data.message);
             }
-        }
-    });
+                console.log(data.retrievedGame[0].name);
+                console.log(data.retrievedGame[0].gamePK);
 
-    alert('Thank you for your purchase');
-    var cartItems = $('.cart-items')[0];
-    while (cartItems.hasChildNodes()) {
-        cartItems.removeChild(cartItems.firstChild);
-    }
-    updateCartTotal();
-}
+                //display game properties on productPage.hbs
+                addItemToCart(data.retrievedGame[0].name, data.retrievedGame[0].price, data.retrievedGame[0].picture, data.retrievedGame[0].gamePK, currentGameQuantity);
+                updateCartTotal();
+            }
+        });
+};
 
-function removeCartItem(event) {
-    var buttonClicked = event.target;
-    buttonClicked.parentElement.parentElement.remove();
-    updateCartTotal();
-}
-
-function quantityChanged(event) {
-    var input = event.target;
-    if (isNaN(input.value) || input.value <= 0) {
-        input.value = 1;
-    }
-    updateCartTotal();
-}
-
-function addToCartClicked(event) {
-    var button = event.target;
-    var shopItem = button.parentElement.parentElement;
-    var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText;
-    var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText;
-    var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src;
-    addItemToCart(title, price, imageSrc);
-    updateCartTotal();
-}
-
-function addItemToCart(title, price, imageSrc) {
+function addItemToCart(title, price, imageSrc, gamePK, currentGameQuantity) {
     var cartRow = document.createElement('div');
     cartRow.classList.add('cart-row');
     var cartItems = document.getElementsByClassName('cart-items')[0];
@@ -115,8 +89,9 @@ function addItemToCart(title, price, imageSrc) {
         </div>
         <span class="cart-price cart-column">${price}</span>
         <div class="cart-quantity cart-column">
-            <input class="cart-quantity-input" type="number" value="1">
+            <input class="cart-quantity-input" type="number" value="${currentGameQuantity}">
             <button class="btn btn-danger" type="button">REMOVE</button>
+            <input class="cart-item-PK" type="hidden" value="${gamePK}"></input>
         </div>`;
     cartRow.innerHTML = cartRowContents;
     cartItems.append(cartRow);
@@ -140,8 +115,101 @@ function updateCartTotal() {
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total;
 }
 
+function removeCartItem(event) {
+    var buttonClicked = event.target;
+    buttonClicked.parentElement.parentElement.remove();
+    updateCartTotal();
+}
+
+function quantityChanged(event) {
+    var input = event.target;
+    if (isNaN(input.value) || input.value <= 0) {
+        input.value = 1;
+    }
+    updateCartTotal();
+}
+
+function purchaseClicked() {
+    var cartContainer = document.getElementsByClassName('cart-items')[0];
+    var allRows = cartContainer.getElementsByClassName('cart-row');
+    var currentRow = allRows[0];
+
+    $.ajax({
+        type: "POST",
+        url: "/cart/updateQuantity",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
+            amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
+        }),
+        success: function(data, status) {
+            if (data.response) {
+                console.log(data);
+                // location.reload();
+            }
+            else {
+                console.log(data.message);
+            }
+        }
+    });
+
+    alert('Thank You For Your Purchase!');
+    var cartItems = $('.cart-items')[0];
+    while (cartItems.hasChildNodes()) {
+        cartItems.removeChild(cartItems.firstChild);
+    }
+    //TODO: add promise
+    window.localStorage.clear();
+    updateCartTotal();
+    //TODO: add .then
+    window.location.href = "/homepage";
+}
+
 //switch to home page
 function switchToHome() {
-    console.log("function working?")
+    //TODO: add promise
+    //save new state of shopping cart if user doesn't checkout
+    let localCartArray = localStorage.getItem("localCart").split(",");
+    let localQuantityCartArray = localStorage.getItem("localQuantityCart").split(",");
+
+    //for each item in localCartArray
+        //check each item in shopping cart to find matching PK
+            //if Pk's match then update quantity in localQuantityCartArray
+            //else remove PK and associated quantity from both arrays
+    //after loops create new comma seperated strings from both arrays
+    //store back into local storage
+    let match = false;
+    for(let i=0; i<localCartArray.length; i++){
+        let container = document.getElementsByClassName('cart-items')[0];
+        let rows = container.getElementsByClassName('cart-row');
+        for (var k = 0; k < rows.length; k++) {
+            if(localCartArray[i] == rows[k].getElementsByClassName('cart-item-PK')[0].value){
+                match = true;
+                localQuantityCartArray[i] = rows[k].getElementsByClassName('cart-quantity-input')[0].value;
+                break;
+            }
+        }
+        //item was removed from cart
+        if(!match){
+            //remove item from arrays
+            localCartArray.splice(i, 1);
+            localQuantityCartArray.splice(i, 1);
+        }
+        //reset match flag
+        match = false;
+    }
+
+    //save new cart state to local storage
+    //if only one item in array then append comma manually
+    if(localCartArray.length == 1){
+        localStorage.setItem("localCart", localCartArray[0] + ",");
+        localStorage.setItem("localQuantityCart", localQuantityCartArray[0] + ",");
+    }else{
+        localStorage.setItem("localCart", localCartArray.toString());
+        localStorage.setItem("localQuantityCart", localQuantityCartArray.toString());
+    }
+
+    //TODO: add .then
     window.location.href = "/homepage";
 }
