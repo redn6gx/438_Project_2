@@ -17,13 +17,11 @@ router.get('/', function(req, res, next) {
   dconnection.query(`
     SELECT * FROM Game
     `, function(error, results, fields){
-      console.log(results);
       if(error) throw error;
       for (i in results){
         gitem[i] = results[i];
 
       }
-      console.log('gitem: ', gitem)
       res.render('homepage', {
         title: 'Gaming Collection Shop',
         item: gitem
@@ -35,7 +33,9 @@ router.get('/', function(req, res, next) {
 });
 
 //Post
-router.post("/", function(req, res, next){
+router.post("/homepage", function(req, res, next){
+
+  console.log("entering the post route")
   const dconnection = mysql.createConnection({
     host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'fj0s4at6opd6jmr1',
@@ -46,7 +46,6 @@ router.post("/", function(req, res, next){
   dconnection.query(`
     SELECT * FROM Game WHERE name = ?`, [req.body.keyword],
     function(error, results, fields){
-      console.log(results);
       if(error) throw error;
       res.json({
         response: "Successfully Retrieved Game",
