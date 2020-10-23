@@ -9,15 +9,6 @@
     <form class="form-inline">
         <input id="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group mb-3 my-sm-0 mr-sm-2">
-            {{!-- <div class="input-group-prepend">
-                <label class="input-group-text" for="statusFilter">Status</label>
-            </div>
-            <select class="custom-select" id="statusFilter">
-                <option value="" selected>All</option>
-                <option value="Ended">Ended</option>
-                <option value="Live">Live</option>
-                <option value="Waiting for players">Waiting for players</option>
-            </select> --}}
         </div>
         <button id="search" class="btn btn-outline-success my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#searchModal">Search</button>
     </form>
@@ -28,7 +19,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title" id= "searchHeader"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -36,17 +27,16 @@
       <div class="modal-body">
         <p>
             <tr>
-                <td><img src={{foundpic}}></td>
-                <td>{{foundname}}</td>
-                <td>{{foundprice}}</td>
+                <td><img id='simg' src=''></td>
+                <td><div id="sname"></div></td>
+                <td><div id="sprice"></div></td>
                 <td>
-                    <a class="btn btn-warning" href="/productPage?id={{gamePK}}">View Product</a>
+                    <a class="btn btn-warning" id = "slink">View Product</a>
                 </td>
             </tr>
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -60,7 +50,7 @@
             <th>Item</th>
             <th>Quantity</th>
             <th>
-                <a class="btn btn-info" href="home/login">Admin Login</a>
+                <a id="login" class="btn btn-info" data-toggle="modal" data-target="#LoginModal"> Login</a>
             </th>
             <th>
                 <a class="btn btn-create btn-success" data-toggle="modal" data-target="#createModal">Create Account</a>
@@ -79,7 +69,7 @@
     </thead>
 </table>
 
-<!-- Modal -->
+<!-- creatingModal -->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -91,14 +81,6 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
-                        <label for="first">First Name</label>
-                        <input type="text" class="form-control" id="first" aria-describedby="firstHelp" placeholder="Enter your first name">
-                    </div>
-                    <div class="form-group">
-                        <label for="last">Last Name</label>
-                        <input type="text" class="form-control" id="last" aria-describedby="lastHelp" placeholder="Enter your last name">
-                    </div>
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter a username">
@@ -117,19 +99,44 @@
     </div>
 </div>
 
-
-
+<!-- LoginModal -->
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="logusername" aria-describedby="usernameHelp" placeholder="Enter a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="text" class="form-control" id="logpassword" aria-describedby="passwordHelp" placeholder="Enter a password"></input>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="LogButton" class="btn btn-primary" data-dismiss="modal">Enter</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
-
     var foundname;
     var foundpic;
     var foundprice;
     var foundpk;
 
     $(document).ready(function() {
-    $(document).ready(function() { 
         //set initial local storage variables
         if(localStorage.getItem("localCart") == null){
             let localCart = "";
@@ -142,24 +149,19 @@
             e.preventDefault();
             $('#createModal').modal('toggle');
         });
-
         $("#saveButton").on('click', function(e) {
             e.preventDefault();
-
             $.ajax({
                 type: "POST",
                 url: "/home",
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    "first": $("#first").val(),
-                    "last": $("#last").val(),
                     "username": $("#username").val(),
                     "password": $("#password").val()
                 }),
                 success: function(data, status) {
-                    $('#message').html(result.message);
-                    $('#message').show();
+                    console.success(xhr.responseText);
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -170,14 +172,29 @@
             });
         });
 
-
+        $('#login').on('click', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/homepage",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "username": $("#logusername").val(),
+                    "password": $("#logpassword").val()
+            }),
+            success: function(data, status){
+                console.success(xhr.responseText);
+            }
+                error: function(xhr, status, error){
+                console.error(xhr.responseText);
+            }
+            });
+        });
 
 
         $("#search").on('click', function(e) {
             e.preventDefault();
-                $('#searchModal').modal('toggle');
-
-
             $.ajax({
                 type: "POST",
                 url: "/homepage",
@@ -188,16 +205,26 @@
                     "statusFilter": $("#statusFilter").val()
                 }),
 
-                success: function(data, status) {
-                    console.log("success")
-                    for(let i = 0; i < data.item.length; i++){
-                        if($('#keyword') == data.item[i].name){
-                            foundpic = data.item[i].picture;
-                            foundprice = data.item[i].price;
-                            foundname = data.item[i].name;
-                            foundpk = data.item[i].gamePK;
-                        }
+                success: function(result, status) {
+                    console.log("success")                    
+                    if (result.item.length > 0){
+                        $('#searchHeader').text("Match Found")
+                        $('#simg').attr("src", result.item[0].picture)
+                        $('#sname').text(result.item[0].name)
+                        $('#sprice').text(result.item[0].price)
+
+                        let link = `/productPage?id=${result.item[0].gamePK}`
+
+                        $('#slink').attr('href', link)
+                        $('#slink').show();
                     }
+                    else {
+                        $('#searchHeader').text("No Match Found");
+                        $('#slink').hide();
+                    }
+
+                    $('#searchModal').modal('toggle');
+
 
                 },
                 error: function(xhr, status, error) {
