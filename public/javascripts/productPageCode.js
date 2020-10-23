@@ -11,7 +11,6 @@ var currentGamePK;
 
 /*global $*/
 function ready() {
-    // console.log(currentGamePK);
     const params = new URLSearchParams(window.location.search)
     console.log(params.get('id'));
     currentGamePK = params.get('id');
@@ -55,7 +54,7 @@ function getProduct(){
 
 //Add to Cart Button
 function addToCart() {
-    let duplicateFlag = false;
+    // let duplicateFlag = false;
 
     if(tempLocalCart == ""){
         addToLocalStorageCart();
@@ -66,16 +65,23 @@ function addToCart() {
 
     for(let i=0; i<localCartArray.length; i++){
         if(localCartArray[i] == currentGamePK){
-            duplicateFlag = true;
-            break;
+            // duplicateFlag = true;
+            // break;
+            alert('Item already in cart!');
+            return;
         }
     }
 
-    if(duplicateFlag){
-        console.log('Item already in cart');
-    }else{
-        addToLocalStorageCart();
-    }
+    // if(duplicateFlag){
+    //     console.log('Item already in cart');
+    //     alert('Item already in cart!');
+    // }else{
+    //     addToLocalStorageCart();
+    //     alert('Added To Shopping Cart!');
+    // }
+
+    addToLocalStorageCart();
+    alert('Added To Shopping Cart!');
 }
  
 function addToLocalStorageCart(){
@@ -89,12 +95,10 @@ function addToLocalStorageCart(){
 
 //switch to home page
 function switchToHome() {
-    console.log("function working?")
     window.location.href = "/homepage";
 }
 
 //switch to cart page
 function switchToCart() {
-    console.log("function working?")
     window.location.href = "/cart";
 }

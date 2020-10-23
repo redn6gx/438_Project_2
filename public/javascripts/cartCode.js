@@ -57,13 +57,9 @@ function getProduct(currentGamePK, currentGameQuantity){
             console.log(data.success);
             if (data.response) {
                 console.log(data);
-                // location.reload();
             } else {
                 console.log(data.message);
             }
-                console.log(data.retrievedGame[0].name);
-                console.log(data.retrievedGame[0].gamePK);
-
                 //display game properties on productPage.hbs
                 addItemToCart(data.retrievedGame[0].name, data.retrievedGame[0].price, data.retrievedGame[0].picture, data.retrievedGame[0].gamePK, currentGameQuantity);
                 updateCartTotal();
@@ -119,6 +115,7 @@ function removeCartItem(event) {
     var buttonClicked = event.target;
     buttonClicked.parentElement.parentElement.remove();
     updateCartTotal();
+    updateCartState();
 }
 
 function quantityChanged(event) {
@@ -146,7 +143,6 @@ function purchaseClicked() {
         success: function(data, status) {
             if (data.response) {
                 console.log(data);
-                // location.reload();
             }
             else {
                 console.log(data.message);
@@ -159,16 +155,14 @@ function purchaseClicked() {
     while (cartItems.hasChildNodes()) {
         cartItems.removeChild(cartItems.firstChild);
     }
-    //TODO: add promise
+
     window.localStorage.clear();
     updateCartTotal();
-    //TODO: add .then
+
     window.location.href = "/homepage";
 }
 
-//switch to home page
-function switchToHome() {
-    //TODO: add promise
+function updateCartState(){
     //save new state of shopping cart if user doesn't checkout
     let localCartArray = localStorage.getItem("localCart").split(",");
     let localQuantityCartArray = localStorage.getItem("localQuantityCart").split(",");
@@ -209,7 +203,9 @@ function switchToHome() {
         localStorage.setItem("localCart", localCartArray.toString());
         localStorage.setItem("localQuantityCart", localQuantityCartArray.toString());
     }
+}
 
-    //TODO: add .then
+//switch to home page
+function switchToHome() {
     window.location.href = "/homepage";
 }

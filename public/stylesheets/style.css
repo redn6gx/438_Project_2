@@ -7,11 +7,6 @@ a {
   color: #00B7FF;
 }
 
-
-
-
-
-
 /* productPage */
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,400,700');
 @import url("https://fonts.googleapis.com/css?family=Metal+Mania");
@@ -159,6 +154,7 @@ html, body {
 .cart-quantity-input-label, .shop-item-quantity{
     color: #000000;
     font-weight: bold;
+    font-size: large;
 }
 
 .btn {
@@ -210,18 +206,23 @@ html, body {
 }
 
 .shop-item-image {
-    height: 250px;
+    height: 350px;
+    width: auto;
 }
 
 .shop-item-details {
     display: flex;
     align-items: center;
     padding: 5px;
+    background-color: rgba(0, 104, 122, 0.5);
 }
 
 .shop-item-price {
     flex-grow: 1;
-    color: #333;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    font-size: large;
+    font-weight: bold;
 }
 
 .shop-items {
@@ -388,4 +389,16 @@ html, body {
     display: block;
     margin: 40px auto 80px auto;
     font-size: 1.75em;
+}
+
+.home-product-pic {
+    height: 8em;
+    width: 7em;
+}
+
+.home-product {
+    font-size: larger;
+    font-weight: bold;
+    color: #000000;
+    text
 }

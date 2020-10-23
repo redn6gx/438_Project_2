@@ -4,7 +4,8 @@
     }
 </style>
 
-<h1 class = "homepagetitle">{{title}}</h1>
+<h1 class = "homepagetitle">Game Gods</h1>
+<button class="cart_button" type="button">cart</button>
 <nav class="navbar navbar-light bg-light float-right">
     <form class="form-inline">
         <input id="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -58,8 +59,8 @@
             </th>
         </tr>
         {{#each item}}
-        <tr>
-            <td><img src={{picture}} alt={{picture}}></td>
+        <tr class="home-product">
+            <td><img class="home-product-pic" src={{picture}} alt={{picture}}></td>
             <td>{{name}}</td>
             <td>{{quantity}}</td>
             <td>
@@ -122,6 +123,8 @@
             localStorage.setItem("localQuantityCart", localQuantityCart);
         }
 
+        $('.cart_button').on('click', switchToCart);
+
         $(".btn-create").on('click', function(e) {
             e.preventDefault();
             $('#createModal').modal('toggle');
@@ -180,4 +183,9 @@
             });
         });
     });
+
+    //switch to cart page
+    function switchToCart() {
+        window.location.href = "/cart";
+    }
 </script>
