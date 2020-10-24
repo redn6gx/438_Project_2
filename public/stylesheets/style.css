@@ -206,7 +206,7 @@ html, body {
 }
 
 .shop-item-image {
-    height: 350px;
+    height: 380px;
     width: auto;
 }
 
@@ -393,7 +393,7 @@ html, body {
 
 .home-product-pic {
     height: 8em;
-    width: 7em;
+    width: 15em;
 }
 
 .home-product {
