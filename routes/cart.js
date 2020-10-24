@@ -22,9 +22,6 @@ router.post("/updateQuantity",function (req, res, next) {
   });
   dconnection.connect();
   
-  //put a query here to check quantity availability
-    //if error the send error response and disconnect
-
   dconnection.query(`
     UPDATE Game 
     SET quantity = quantity-"${amountBought}"
