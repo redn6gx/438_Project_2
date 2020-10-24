@@ -130,6 +130,14 @@
     </div>
 </div>
 
+<footer class="main-footer">
+    <div class="container main-footer-container">
+        <h3 class="store-name">GG</h3>
+    </div>
+    <div class="container sub-footer-container">
+        <span class="disclaimer"> Disclaimer: This is not a real website. </span>
+    </div>
+</footer>
 
 <script>
     var foundname;
@@ -220,10 +228,16 @@
 
                         $('#slink').attr('href', link)
                         $('#slink').show();
+                        $('#simg').show();
+                        $('#sname').show();
+                        $('#sprice').show();
                     }
                     else {
                         $('#searchHeader').text("No Match Found");
                         $('#slink').hide();
+                        $('#simg').hide();
+                        $('#sname').hide();
+                        $('#sprice').hide();
                     }
 
                     $('#searchModal').modal('toggle');
