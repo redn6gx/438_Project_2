@@ -8,7 +8,6 @@ var tempLocalCart = localStorage.getItem("localCart");
 var tempLocalQuantityCart = localStorage.getItem("localQuantityCart"); 
 var currentGamePK;
 
-
 /*global $*/
 function ready() {
     const params = new URLSearchParams(window.location.search)
@@ -35,7 +34,6 @@ function getProduct(){
             console.log(data.success);
             if (data.response) {
                 console.log(data);
-                // location.reload();
             } else {
                 console.log(data.message);
             }
@@ -54,10 +52,9 @@ function getProduct(){
 
 //Add to Cart Button
 function addToCart() {
-    // let duplicateFlag = false;
-
     if(tempLocalCart == ""){
         addToLocalStorageCart();
+        alert('Added To Shopping Cart!');
         return;
     }
     //holds primary keys of games in cart
@@ -65,20 +62,10 @@ function addToCart() {
 
     for(let i=0; i<localCartArray.length; i++){
         if(localCartArray[i] == currentGamePK){
-            // duplicateFlag = true;
-            // break;
             alert('Item already in cart!');
             return;
         }
     }
-
-    // if(duplicateFlag){
-    //     console.log('Item already in cart');
-    //     alert('Item already in cart!');
-    // }else{
-    //     addToLocalStorageCart();
-    //     alert('Added To Shopping Cart!');
-    // }
 
     addToLocalStorageCart();
     alert('Added To Shopping Cart!');

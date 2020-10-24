@@ -127,28 +127,12 @@ function quantityChanged(event) {
 }
 
 function purchaseClicked() {
-    var cartContainer = document.getElementsByClassName('cart-items')[0];
-    var allRows = cartContainer.getElementsByClassName('cart-row');
-    var currentRow = allRows[0];
-
-    $.ajax({
-        type: "POST",
-        url: "/cart/updateQuantity",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify({
-            gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
-            amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
-        }),
-        success: function(data, status) {
-            if (data.response) {
-                console.log(data);
-            }
-            else {
-                console.log(data.message);
-            }
-        }
-    });
+    let container = document.getElementsByClassName('cart-items')[0];
+    let rows = container.getElementsByClassName('cart-row');
+    for (var k = 0; k < rows.length; k++) {
+        updateQuantityDB(rows[k].getElementsByClassName('cart-item-title')[0].innerHTML, 
+        rows[k].getElementsByClassName('cart-quantity-input')[0].value);
+    }
 
     alert('Thank You For Your Purchase!');
     var cartItems = $('.cart-items')[0];
@@ -160,6 +144,29 @@ function purchaseClicked() {
     updateCartTotal();
 
     window.location.href = "/homepage";
+}
+
+function updateQuantityDB(gName, aBought){
+        $.ajax({
+        type: "POST",
+        url: "/cart/updateQuantity",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            // gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
+            // amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
+            gameName: gName,
+            amountBought: aBought
+        }),
+        success: function(data, status) {
+            if (data.response) {
+                console.log(data);
+            }
+            else {
+                console.log(data.message);
+            }
+        }
+    });
 }
 
 function updateCartState(){
@@ -207,5 +214,6 @@ function updateCartState(){
 
 //switch to home page
 function switchToHome() {
+    updateCartState();
     window.location.href = "/homepage";
 }
