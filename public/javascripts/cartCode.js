@@ -114,7 +114,6 @@ function removeCartItem(event) {
     var buttonClicked = event.target;
     buttonClicked.parentElement.parentElement.remove();
     updateCartTotal();
-    // updateCartState();
 }
 
 function quantityChanged(event) {

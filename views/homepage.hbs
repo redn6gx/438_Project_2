@@ -177,8 +177,7 @@
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 },
-                complete: function(data, status) { //optional, used for debugging purposes
-                    //console.log(status);
+                complete: function(data, status) {
                 }
             });
         });
@@ -241,13 +240,11 @@
                     }
 
                     $('#searchModal').modal('toggle');
-
-
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 },
-                complete: function(data, status) { //optional, used for debugging purposes
+                complete: function(data, status) {
                     console.log(status);
                 }
             });
