@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 //post method for retrieving product from database
 router.post("/getProduct", function(req, res, next) {
   let productPK = req.body.productPK;
+  
   const dconnection = mysql.createConnection({
       host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
       user: 'fj0s4at6opd6jmr1',

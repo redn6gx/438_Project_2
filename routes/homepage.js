@@ -4,9 +4,8 @@ var mysql = require("mysql");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  let gitem = [];
   
-  let gitem = []
-
   const dconnection = mysql.createConnection({
     host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'fj0s4at6opd6jmr1',
@@ -34,7 +33,6 @@ router.get('/', function(req, res, next) {
 
 //Post
 router.post("/homepage", function(req, res, next){
-
   console.log("entering the post route")
   const dconnection = mysql.createConnection({
     host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',

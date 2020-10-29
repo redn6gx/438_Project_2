@@ -7,7 +7,6 @@ if (document.readyState == 'loading') {
 /*global $*/
 function ready() {
     populateCart();
-
     $('.home_button').on('click', switchToHome);
 
     var removeCartItemButtons = $('.btn-danger');
@@ -35,7 +34,7 @@ function populateCart(){
     //holds primary keys of games in cart
     let localCartArray = localStorage.getItem("localCart").split(",");
     //holds chosen quantities of games in cart
-    //index of item in tempLocalCart is the index of associated quantity
+    //index of item in localCartArray is the same index of associated quantity
     let localQuantityCartArray = localStorage.getItem("localQuantityCart").split(",");
 
     for(let i=0; i<localCartArray.length; i++){
@@ -115,7 +114,7 @@ function removeCartItem(event) {
     var buttonClicked = event.target;
     buttonClicked.parentElement.parentElement.remove();
     updateCartTotal();
-    updateCartState();
+    // updateCartState();
 }
 
 function quantityChanged(event) {
@@ -131,7 +130,7 @@ function purchaseClicked() {
     let rows = container.getElementsByClassName('cart-row');
     for (var k = 0; k < rows.length; k++) {
         updateQuantityDB(rows[k].getElementsByClassName('cart-item-title')[0].innerHTML, 
-        rows[k].getElementsByClassName('cart-quantity-input')[0].value);
+                        rows[k].getElementsByClassName('cart-quantity-input')[0].value);
     }
 
     alert('Thank You For Your Purchase!');
@@ -153,8 +152,6 @@ function updateQuantityDB(gName, aBought){
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify({
-            // gameName: currentRow.getElementsByClassName('cart-item-title')[0].innerHTML,
-            // amountBought: currentRow.getElementsByClassName('cart-quantity-input')[0].value
             gameName: gName,
             amountBought: aBought
         }),
@@ -169,17 +166,16 @@ function updateQuantityDB(gName, aBought){
     });
 }
 
+//for each item in localCartArray
+    //check each item in shopping cart to find matching PK
+        //if Pk's match then update quantity in localQuantityCartArray
+        //else remove PK and associated quantity from both arrays
+//after loops create new comma seperated strings from both arrays
+//store back into local storage
 function updateCartState(){
     //save new state of shopping cart if user doesn't checkout
     let localCartArray = localStorage.getItem("localCart").split(",");
     let localQuantityCartArray = localStorage.getItem("localQuantityCart").split(",");
-
-    //for each item in localCartArray
-        //check each item in shopping cart to find matching PK
-            //if Pk's match then update quantity in localQuantityCartArray
-            //else remove PK and associated quantity from both arrays
-    //after loops create new comma seperated strings from both arrays
-    //store back into local storage
     let match = false;
     for(let i=0; i<localCartArray.length; i++){
         let container = document.getElementsByClassName('cart-items')[0];
@@ -207,8 +203,12 @@ function updateCartState(){
         localStorage.setItem("localCart", localCartArray[0] + ",");
         localStorage.setItem("localQuantityCart", localQuantityCartArray[0] + ",");
     }else{
-        localStorage.setItem("localCart", localCartArray.toString());
-        localStorage.setItem("localQuantityCart", localQuantityCartArray.toString());
+        let resultStr1 = localCartArray.toString();
+        let resultStr2 = localQuantityCartArray.toString();
+        resultStr1 += ",";
+        resultStr2 += ",";
+        localStorage.setItem("localCart", resultStr1);
+        localStorage.setItem("localQuantityCart", resultStr2);
     }
 }
 

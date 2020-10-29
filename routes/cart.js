@@ -9,10 +9,8 @@ router.get('/', function(req, res, next) {
 
 //post method to update product quantity
 router.post("/updateQuantity",function (req, res, next) {
-  console.log(req.body);
   let amountBought = req.body.amountBought;
   let gameName = req.body.gameName;
-  // let successful = true;
 
   const dconnection = mysql.createConnection({
     host: 'sm9j2j5q6c8bpgyq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
@@ -21,7 +19,6 @@ router.post("/updateQuantity",function (req, res, next) {
     database: 'gjld626l6whec08k'
   });
   dconnection.connect();
-  
   dconnection.query(`
     UPDATE Game 
     SET quantity = quantity-"${amountBought}"

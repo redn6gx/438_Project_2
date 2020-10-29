@@ -3,9 +3,9 @@ if (document.readyState == 'loading') {
 } else {
     ready();
 }
-
-var tempLocalCart = localStorage.getItem("localCart"); 
-var tempLocalQuantityCart = localStorage.getItem("localQuantityCart"); 
+//global variables
+var tempLocalCart;
+var tempLocalQuantityCart;
 var currentGamePK;
 
 /*global $*/
@@ -13,6 +13,9 @@ function ready() {
     const params = new URLSearchParams(window.location.search)
     console.log(params.get('id'));
     currentGamePK = params.get('id');
+
+    tempLocalCart = localStorage.getItem("localCart"); 
+    tempLocalQuantityCart = localStorage.getItem("localQuantityCart"); 
 
     getProduct();
     $('.home_button').on('click', switchToHome);
